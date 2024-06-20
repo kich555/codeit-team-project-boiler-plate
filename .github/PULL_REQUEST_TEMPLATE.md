@@ -20,4 +20,3 @@
 ### Additional Notes
 <!-- 추가 사항이 있을 경우, Todo list를 작성해주세요. -->
 - [ ] (없음)
-s
