@@ -1,6 +1,7 @@
 current_branch=$(git branch --show-current)
 
-restricted_branches="^(main|master|develop|epic/.+)$"
+# restricted_branches="^(main|master|develop|epic/.+)$"
+restricted_branches="^(epic/.+)$"
 
 if [[ $current_branch =~ $restricted_branches ]]; then
   echo ":construction: You are on a restricted branch: $current_branch."
