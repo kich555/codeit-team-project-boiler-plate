@@ -22,7 +22,7 @@ jobs:
           const owner = context.repo.owner;
           const repo = context.repo.repo;
 
-          await github.repos.updateBranchProtection({
+          await github.rest.repos.updateBranchProtection({
             owner,
             repo,
             branch,
