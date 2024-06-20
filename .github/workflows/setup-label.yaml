@@ -24,13 +24,11 @@ jobs:
               { name: "Type: Merge :truck:", description:'머지', color: "#4A7A8F" },
               { name: "Type: Refactor :recycle:", description:'리팩토링', color: "#027B6B" },
             ];
+
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels
+            })
             
-            for (const label of labels) {
-              await github.rest.issues.createLabel({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                name: label.name,
-                color: label.color
-                description: label.description
-              });
-            }
