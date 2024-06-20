@@ -1,6 +1,9 @@
 {
   "name": "codeit-team-project-boiler-plate",
   "version": "0.1.0",
+  "engines": {
+    "pnpm": "9.3.0"
+  },
   "private": true,
   "scripts": {
     "dev": "next dev",
