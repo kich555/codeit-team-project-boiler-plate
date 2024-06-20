@@ -26,10 +26,11 @@ jobs:
             ];
             
             for (const label of labels) {
-              await github.issues.createLabel({
+              await github.rest.issues.createLabel({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 name: label.name,
                 color: label.color
+                description: label.description
               });
             }
