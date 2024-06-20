@@ -1,0 +1,48 @@
+name: Merge Pull Request
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  merge-pr:
+    if: >
+      github.event.issue.pull_request &&
+      github.event.comment.body == '/merge' &&
+      github.event.comment.user.id == github.event.issue.user.id
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Merge Pull Request
+        uses: pascalgn/automerge-action@v0.11.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo, number: pull_number } = context.issue;
+
+            const {
+              data: { head: { ref: head_ref }, mergeable }
+            } = await github.pulls.get({ owner, repo, pull_number });
+
+            if (!mergeable) {
+              core.setFailed('PR is not mergeable. Please check PR.');
+              return;
+            }
+
+            let merge_method = 'merge';
+
+            // if head_ref type is 'epic' or 'feat' or 'fix' or 'refactor', do squash merge
+            const type = head_ref.split('/')[0];
+            if (['epic', 'feat', 'fix', 'refactor'].includes(type)) {
+              merge_method = 'squash';
+            }
+
+            // Merge PR
+            const { data: { merged } } = await github.pulls.merge({ owner, repo, pull_number, merge_method });
+
+            if (!merged) {
+              core.setFailed('PR was not merged. Please check PR.');
+            }
