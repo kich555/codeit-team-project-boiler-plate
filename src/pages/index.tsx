@@ -20,9 +20,6 @@ export default function Home() {
     console.log('state', state);
   }, [state]);
 
-  // TODO: CI 테스트용 console.log
-  // eslint-disable-next-line no-console
-  console.log('test');
   return (
     <>
       <Head>
