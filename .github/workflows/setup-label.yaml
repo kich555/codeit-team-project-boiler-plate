@@ -23,32 +23,34 @@ jobs:
               { name: "Type: Improve UX :arrow_up:", description: 'UX 개선', color: "2CE151" },
               { name: "Type: Merge :truck:", description: '머지', color: "4A7A8F" },
               { name: "Type: Refactor :recycle:", description: '리팩토링', color: "027B6B" },
-            ];
+            ];  
 
+            // 존재하는 모든 레이블 나열
+            const listResponse = await github.rest.issues.listLabelsForRepo({
+              owner: owner,
+              repo: repo,
+            });
+
+            // 나열된 각 레이블에 대해 삭제 요청
+            for (const label of listResponse.data) {
+              await github.rest.issues.deleteLabel({
+                owner: owner,
+                repo: repo,
+                name: label.name,
+              });
+
+              console.log(`Label '${label.name}' deleted.`);
+            }
+
+            // 새로운 레이블 생성
             for (const label of labels) {
-              let response;
-              try {
-                // 라벨 업데이트 시도
-                response = await github.rest.issues.updateLabel({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  name: label.name,
-                  color: label.color,
-                  description: label.description,
-                });
-              } catch (error) {
-                // 라벨이 존재하지 않으면 생성
-                if (error.status === 404) {
-                  response = await github.rest.issues.createLabel({
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    name: label.name,
-                    color: label.color,
-                    description: label.description,
-                  });
-                } else {
-                  throw error;
-                }
-              }
+              const response = await github.rest.issues.createLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: label.name,
+                color: label.color,
+                description: label.description,
+              });
+
               console.log(`Label ${label.name} processed`, response.status);
             }
