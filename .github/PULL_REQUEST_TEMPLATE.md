@@ -13,7 +13,7 @@
 - [ ] Base Branch 확인
 - [ ] 적절한 Label 지정
 - [ ] Assignee 및 Reviewer 지정
-
+.
 ### Test
 - [ ] 로컬 작동 확인
 
