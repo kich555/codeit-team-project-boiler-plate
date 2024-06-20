@@ -20,7 +20,7 @@
 # Setup label
 현재 레포지토리에 존재하는 모든 `label`을 삭제하고 
 아래의 Label로 세팅함
-
+t
 ```tsx
 { name: "Priority: High 🔥", description: '우선순위 높음', color: "F9D0C4" },
 { name: "Priority: Low 🐢", description: '우선순위 낮음', color: "C2E0C6" },
