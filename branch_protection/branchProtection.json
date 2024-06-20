@@ -1,0 +1,47 @@
+{
+  "id": 963805,
+  "name": "Require status checks to Merge",
+  "target": "branch",
+  "source_type": "Repository",
+  "source": "kich555/codeit-team-project-boiler-plate",
+  "enforcement": "active",
+  "conditions": {
+    "ref_name": {
+      "exclude": [],
+      "include": [
+        "~DEFAULT_BRANCH",
+        "refs/heads/\"main\", \"epic/**\", \"develop\", \"master\""
+      ]
+    }
+  },
+  "rules": [
+    {
+      "type": "deletion"
+    },
+    {
+      "type": "non_fast_forward"
+    },
+    {
+      "type": "required_status_checks",
+      "parameters": {
+        "strict_required_status_checks_policy": true,
+        "required_status_checks": [
+          {
+            "context": "build"
+          }
+        ]
+      }
+    },
+    {
+      "type": "pull_request",
+      "parameters": {
+        "required_approving_review_count": 1,
+        "dismiss_stale_reviews_on_push": false,
+        "require_code_owner_review": false,
+        "require_last_push_approval": true,
+        "required_review_thread_resolution": false
+      }
+    }
+  ],
+  "bypass_actors": []
+}
