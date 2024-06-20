@@ -1,7 +1,3 @@
-pnpm lint
-
-echo ":truck: finished linting."
-
 current_branch=$(git branch --show-current)
 
 restricted_branches="^(main|master|develop|epic/.+)$"
