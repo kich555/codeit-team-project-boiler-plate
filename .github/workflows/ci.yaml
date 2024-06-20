@@ -23,13 +23,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20.14.0'
-          cache: 'pnpm'
 
       - name: Install pnpm
-        run: npm install -g pnpm@9.3.0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+        run: |
+          if ! command -v pnpm &> /dev/null; then
+            npm install -g pnpm@9.3.0
+          fi
 
       - name: Cache dependencies
         id: cache
