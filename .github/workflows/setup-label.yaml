@@ -27,15 +27,15 @@ jobs:
 
             // 존재하는 모든 레이블 나열
             const listResponse = await github.rest.issues.listLabelsForRepo({
-              owner: owner,
-              repo: repo,
+              owner: context.repo.owner,,
+              repo: context.repo.repo,
             });
 
             // 나열된 각 레이블에 대해 삭제 요청
             for (const label of listResponse.data) {
               await github.rest.issues.deleteLabel({
-                owner: owner,
-                repo: repo,
+                owner: context.repo.owner,,
+                repo: context.repo.repo,
                 name: label.name,
               });
 
