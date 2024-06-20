@@ -17,22 +17,25 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Merge Pull Request
-        uses: pascalgn/automerge-action@v0.11.0
+         uses: actions/github-script@v5
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { owner, repo, number: pull_number } = context.issue;
+            const { owner, repo } = context.repo;
+            const pull_number = context.issue.number;
 
-            const {
-              data: { head: { ref: head_ref }, mergeable }
-            } = await github.pulls.get({ owner, repo, pull_number });
+            const mergeable = await github.pulls.get({
+              owner,
+              repo,
+              pull_number
+            }).then(pr => pr.data.mergeable);
 
             if (!mergeable) {
               core.setFailed('PR is not mergeable. Please check PR.');
               return;
             }
 
-            let merge_method = 'merge';
+            const merge_method = 'merge'; // 'merge', 'squash', or 'rebase'
 
             // if head_ref type is 'epic' or 'feat' or 'fix' or 'refactor', do squash merge
             const type = head_ref.split('/')[0];
@@ -41,8 +44,8 @@ jobs:
             }
 
             // Merge PR
-            const { data: { merged } } = await github.pulls.merge({ owner, repo, pull_number, merge_method });
-
-            if (!merged) {
-              core.setFailed('PR was not merged. Please check PR.');
-            }
+            await github.pulls.merge({ owner, repo, pull_number, merge_method }).then(response => {
+              if (!response.data.merged) {
+                core.setFailed('PR was not merged. Please check PR.');
+              }
+            });
