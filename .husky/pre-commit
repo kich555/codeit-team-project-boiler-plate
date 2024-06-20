@@ -1,1 +1,18 @@
 pnpm lint
+
+echo ":truck: finished linting."
+
+# 현재 브랜치 이름 가져오기
+current_branch=$(git branch --show-current)
+
+# 제한된 브랜치 목록
+restricted_branches="^(main|master|develop|epic/.+)$"
+
+# 현재 브랜치가 제한된 브랜치인지 확인
+if [[ $current_branch =~ $restricted_branches ]]; then
+  echo ":construction: You are on a restricted branch: $current_branch."
+  echo "Commits to this branch are not allowed via pre-commit hook."
+  exit 1
+fi
+
+# 여기에 다른 pre-commit 검사들을 추가할 수 있습니다.
