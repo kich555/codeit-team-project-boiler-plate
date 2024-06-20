@@ -33,4 +33,3 @@ s
 { name: "Type: Merge :truck:", description: '머지', color: "4A7A8F" },
 { name: "Type: Refactor :recycle:", description: '리팩토링', color: "027B6B" }
 ```
-
